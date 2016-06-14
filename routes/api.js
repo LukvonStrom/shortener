@@ -15,8 +15,10 @@ var Link = require('../models/link');
  *
  * @apiSuccess {String}  version  The APIs Version
  */
-router.get('/', function(req, res) {
-  res.status(200).json({ version: '0.1.0'});
+router.get('/', function (req, res) {
+	res.status(200).json({
+		version: '0.1.0'
+	});
 });
 
 /**
@@ -32,29 +34,34 @@ router.get('/', function(req, res) {
  *
  * @apiSuccess {String} id The long id
  */
-router.get('/id/:id', function(req, res) {
-  Link.findOne({urlId: req.params.id}), function(err, link) {
-    if(err) {res.status(500).json({ error: 'error'})}
-    if(!link){res.status(404).json({ error: 'not found'})}
+router.get('/id/:id', function (req, res) {
+	Link.findOne({urlId: req.params.id}), function (err, link) {
+		if (err) {
+			res.status(500).json({error: 'error'});
+		}
 
-    link.save(function(){
-      res.status(200).json({ domain: link.domain});
-    })
-  };
+		if (!link) {
+			res.status(404).json({error: 'not found'});
+		}
+
+		res.status(200).json({
+			domain: link.domain
+		});
+	};
 });
 
 /*
-var postnew = function() {
-  var new = new Link({
-    url: 'domain.tld',
-    urlId: 'input here'
-  });
-
-  new.save(function(err) {
-    if(err) throw err;
-
-    console.log('And yet another new URL was saved.');
-  })
-}
-*/
+ var postnew = function() {
+ var new = new Link({
+ url: 'domain.tld',
+ urlId: 'input here'
+ });
+ 
+ new.save(function(err) {
+ if(err) throw err;
+ 
+ console.log('And yet another new URL was saved.');
+ })
+ }
+ */
 module.exports = router;
