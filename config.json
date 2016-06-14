@@ -1,0 +1,5 @@
+{
+  "mongoConnectionString": "mongodb://localhost/test",
+  "port": "8080",
+  "domain": "https://s.lukvonstrom.de"
+}
