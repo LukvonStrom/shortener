@@ -16,7 +16,7 @@ router.get('/:id', function (req, res) {
 	console.log('Routing worked, Id: ' + urlId);
 
 	Link.findOne({urlId: urlId}, function (err, doc) {
-		/* Fix by Navo: Missing return Statements */
+		/* Fix by @NAAVOO: Missing return Statements */
 		if (err) {
 			res.status(500).json({error: 'error'});
 			return;
