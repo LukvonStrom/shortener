@@ -1,5 +1,5 @@
 {
-  "name": "shorter",
+  "name": "shortener",
   "version": "0.1.0",
-  "description": "An url shorter written in Node.JS"
+  "description": "An url shortener written in Node.JS"
 }

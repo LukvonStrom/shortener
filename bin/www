@@ -5,7 +5,7 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('shorter:server');
+var debug = require('debug')('shortener:server');
 var http = require('http');
 var config = require('../config.json');
 
@@ -32,14 +32,14 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 console.log('+--------------------------------+');
-console.log('|          Link Shorter          |');
+console.log('|          Link Shortener        |');
 console.log('+--------------------------------+');
 console.log('| (c) 2016, LukvonStrom          |');
 console.log('| Author: LukvonStrom            |');
 console.log('| Contributor: Naavoo            |');
 console.log('| Licensed unter the MIT License |');
 console.log('+--------------------------------+');
-console.log('Link shortener is running and listening for connections on port ' + port);
+console.log('Link Shortener is running and listening for connections on port ' + port);
 
 /**
  * Normalize a port into a number, string, or false.

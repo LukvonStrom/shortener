@@ -1,2 +1,2 @@
-# shorter
-An url shorter written in Node.JS
+# URL Shortener
+An url shortener written in Node.JS
