@@ -72,49 +72,4 @@ router.get('/id/:id', function (req, res) {
 		});
 	};
 });
-/**
- * @api {post} /api/insert Inserts a new URL
- * @apiVersion 0.1.0
- * @apiName InsertURL
- * @apiGroup URL
- *
- * @apiError 403 Returns A forbidden, if the URL is already stored in the Database.
- * @apiErrorExample {json} Error-Response:
- * HTTP/1.1 403 Forbidden
- * {
- * "error": "record exists already"
- * }
- * @apiSuccess (200) {String} success saved successfully
- * @apiSuccessExample {json} Success-Response:
- * HTTP/1.1 200 OK
- * {
- * "success": "saved successfully"
- * }
- * @apiExample Example usage:
- * curl -XPOST -H "Content-Type: application/x-www-form-urlencoded" -d 'url=example.com&name=example' 'domain.tld/api/insert'
- */
-app.post('/api/insert', function (req, res) {
-	var url = req.body.url;
-	var name = req.body.name;
-	var newurl = new Link({
-		url: url,
-		urlId: name
-	});
-
-	Link.find({url: url, urlId: name}, function (err, docs) {
-		if (docs.length){
-			res.status(403).json({error: 'record exists already'});
-		}else{
-			newurl.save(function (err) {
-					if (err) {
-						throw err;
-					}else{
-						res.status(200).json({success: 'saved successfully'});
-					}
-				}
-			)}
-
-		console.log('Another new URL was saved.');
-	});
-});
 module.exports = router;

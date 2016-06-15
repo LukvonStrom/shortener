@@ -32,23 +32,23 @@ db.once('open', function () {
 });
 
 /**
- * @api {post} /api/insert
+ * @api {post} /api/insert Inserts a new URL
  * @apiVersion 0.1.0
  * @apiName InsertURL
  * @apiGroup URL
  *
- * @apiError 403 Returns a forbidden, if the URL is already stored in the Database.
+ * @apiError 403 Returns A forbidden, if the URL is already stored in the Database.
  * @apiErrorExample {json} Error-Response:
- * 		HTTP/1.1 403 Forbidden
- * 	    {
- * 	    "error": "record exists already"
- * 	    }
+ * HTTP/1.1 403 Forbidden
+ * {
+ * "error": "record exists already"
+ * }
  * @apiSuccess (200) {String} success saved successfully
  * @apiSuccessExample {json} Success-Response:
- * 		HTTP/1.1 200 OK
- * 		{
- * 		"success": "saved successfully"
- * 	    }
+ * HTTP/1.1 200 OK
+ * {
+ * "success": "saved successfully"
+ * }
  * @apiExample Example usage:
  * curl -XPOST -H "Content-Type: application/x-www-form-urlencoded" -d 'url=example.com&name=example' 'domain.tld/api/insert'
  */
