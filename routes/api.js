@@ -8,12 +8,17 @@ var Link = require('../models/link');
  * @apiName GetVersion
  * @apiGroup Version
  *
- * @apiDescription Gets the current Version of the API.
+ * @apiDescription Endpoint to view the current API Version.
  *
- * @apiExapmle Example usage:
+ * @apiExample Example usage:
  * curl -i http://domain.tld/api/
  *
- * @apiSuccess {String}  version  The APIs Version
+ * @apiSuccess {String}  version  Returns the APIs Version
+ * @apiSuccessExample {json} Success-Response:
+ * 	HTTP/1.1 200 OK
+ * {
+ * "version": "0.1.0"
+ * }
  */
 router.get('/', function (req, res) {
 	res.status(200).json({
@@ -25,19 +30,37 @@ router.get('/', function (req, res) {
  * @api {get} / Gets an url by short id
  * @apiVersion 0.1.0
  * @apiName GetId
- * @apiGroup ID
+ * @apiGroup URL
  *
- * @apiDescription Gets the long url by the id.
+ * @apiDescription Endpoints for manipulating the Short URLs.
+ *
+ * @apiError 500 Returns Eroor, if an error occurs at the query
+ * @apiErrorExample {json} Error-Response:
+ * HTTP/1.1 500 Internal Server Error
+ * {
+ * "error": "internal error"
+ * }
+ * @apiError 404 Returns Not Found when long url can't be found
+ * @apiErrorExample {json} Error-Response:
+ * HTTP/1.1 404 Not Found
+ * {
+ * "error": "not found"
+ * }
+ * @apiSuccess (200) {String} domain example.tld
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 200 OK
+ * {
+ * "domain": "domain.tld"
+ * }
  *
  * @apiExample Example usage:
  * curl -i http://domain.tld/api/id/[put an id here]
  *
- * @apiSuccess {String} id The long id
  */
 router.get('/id/:id', function (req, res) {
 	Link.findOne({urlId: req.params.id}), function (err, link) {
 		if (err) {
-			res.status(500).json({error: 'error'});
+			res.status(500).json({error: 'internal error'});
 		}
 
 		if (!link) {
@@ -49,19 +72,49 @@ router.get('/id/:id', function (req, res) {
 		});
 	};
 });
-
-/*
- var postnew = function() {
- var new = new Link({
- url: 'domain.tld',
- urlId: 'input here'
- });
- 
- new.save(function(err) {
- if(err) throw err;
- 
- console.log('And yet another new URL was saved.');
- })
- }
+/**
+ * @api {post} /api/insert Inserts a new URL
+ * @apiVersion 0.1.0
+ * @apiName InsertURL
+ * @apiGroup URL
+ *
+ * @apiError 403 Returns A forbidden, if the URL is already stored in the Database.
+ * @apiErrorExample {json} Error-Response:
+ * HTTP/1.1 403 Forbidden
+ * {
+ * "error": "record exists already"
+ * }
+ * @apiSuccess (200) {String} success saved successfully
+ * @apiSuccessExample {json} Success-Response:
+ * HTTP/1.1 200 OK
+ * {
+ * "success": "saved successfully"
+ * }
+ * @apiExample Example usage:
+ * curl -XPOST -H "Content-Type: application/x-www-form-urlencoded" -d 'url=example.com&name=example' 'domain.tld/api/insert'
  */
+app.post('/api/insert', function (req, res) {
+	var url = req.body.url;
+	var name = req.body.name;
+	var newurl = new Link({
+		url: url,
+		urlId: name
+	});
+
+	Link.find({url: url, urlId: name}, function (err, docs) {
+		if (docs.length){
+			res.status(403).json({error: 'record exists already'});
+		}else{
+			newurl.save(function (err) {
+					if (err) {
+						throw err;
+					}else{
+						res.status(200).json({success: 'saved successfully'});
+					}
+				}
+			)}
+
+		console.log('Another new URL was saved.');
+	});
+});
 module.exports = router;
